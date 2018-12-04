@@ -8,7 +8,8 @@
     "react": "16.5.2",
     "react-dom": "16.5.2",
     "react-scripts": "2.0.3",
-    "sass": "^1.15.1"
+    "sass": "^1.15.1",
+    "node-sass": "*"
   },
   "devDependencies": {},
   "scripts": {

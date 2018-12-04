@@ -1,9 +1,9 @@
 import React from 'react'
 
 import './styles.css'
-import CSS from './Buttons.module.scss'
+import CSS from './FloatingLabels.module.scss'
 
-function Buttons() {
+export default function FloatingLabels() {
   return (
     <div>
       <label className={CSS.field}>
@@ -51,5 +51,3 @@ function Buttons() {
     </div>
   )
 }
-
-export default Buttons

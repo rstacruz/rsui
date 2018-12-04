@@ -2,13 +2,13 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import './styles.css'
-import Buttons from './Buttons'
+import FloatingLabels from './FloatingLabels'
 
 function App() {
   return (
     <div className="App">
       <h2>Floating labels</h2>
-      <Buttons />
+      <FloatingLabels />
     </div>
   )
 }
