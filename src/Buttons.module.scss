@@ -1,0 +1,48 @@
+@import './floating-label-input';
+
+.commonField {
+  margin: 16px;
+  width: 256px;
+}
+
+.field {
+  composes: commonField;
+  @include floating-label-input($label: '.label', $input: '.input');
+}
+
+.greenField {
+  composes: commonField;
+  @include floating-label-input(
+    $border-color: #888,
+    $label-color: #888,
+    $border-color-focused: #5c8
+  );
+}
+
+.thinField {
+  composes: commonField;
+  @include floating-label-input($border-size: 1px, $border-radius: 2px);
+}
+
+.underlineField {
+  composes: commonField;
+  @include floating-label-input(
+    $border-size: 2px,
+    $horizontal-padding: 0,
+    $border-style: 'underline',
+    $label-displacement: -4px,
+    $height: 40px
+  );
+}
+
+.smallFontField {
+  composes: commonField;
+  @include floating-label-input(
+    $border-size: 2px,
+    $horizontal-padding: 0,
+    $border-style: 'underline',
+    $label-displacement: -4px,
+    $height: 40px,
+    $font-size-small: 0.7em
+  );
+}
