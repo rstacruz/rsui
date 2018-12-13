@@ -51,6 +51,7 @@
   // This won't be a solid background behind the input box,
   // but just a small "patch" that's $border-size high.
   $body-background: white,
+  $allowance: 2px
 ) {
   & {
     display: inline-block;
@@ -180,7 +181,7 @@
 
   // Small label ("up there")
   > #{$label} {
-    line-height: $border-size;
+    line-height: $border-size + $allowance * 2;
     height: auto;
     padding: 0 ($horizontal-padding / 2);
     font-size: $font-size-small;
@@ -194,6 +195,8 @@
       // Not strictly needed, but it makes the transition look
       // a little nice.
       border-radius: $border-radius;
+      line-height: $border-size + $allowance * 2;
+      transform: translate3d(0, $label-displacement - $allowance, 0);
     }
 
     @if ($border-style == 'underline') {
@@ -208,6 +211,7 @@
     font-size: 1em;
     background: transparent;
     color: $label-color-large;
+    transform: translate3d(0, 0, 0);
   }
 
   // Big label - always keep the same color, even if it's invalid

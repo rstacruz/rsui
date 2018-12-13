@@ -1,53 +1,70 @@
-import React from 'react'
-
 import './styles.css'
+import React from 'react'
 import CSS from './FloatingLabels.module.scss'
+import ExampleBlock from './ExampleBlock'
 
 export default function FloatingLabels() {
   return (
     <div>
-      <label className={CSS.field}>
-        <input className={CSS.input} placeholder="Say something" />
-        <span className={CSS.label}>Default settings</span>
-      </label>
+      <ExampleBlock title='Default settings'>
+        <label className={CSS.field}>
+          <input className={CSS.input} placeholder='Say something' />
+          <span className={CSS.label}>Default settings</span>
+        </label>
+      </ExampleBlock>
 
-      <label className={CSS.field}>
-        <input
-          type="email"
-          className={CSS.input}
-          placeholder="Enter an invalid email"
-        />
-        <span className={CSS.label}>With validation</span>
-      </label>
+      <ExampleBlock
+        title='With validation (email)'
+        description='Try entering an invalid email here to see the invalid style.'
+      >
+        <label className={CSS.field}>
+          <input
+            type='email'
+            className={CSS.input}
+            placeholder='Enter an invalid email'
+          />
+          <span className={CSS.label}>With validation</span>
+        </label>
+      </ExampleBlock>
 
-      <label className={CSS.greenField}>
-        <input className={CSS.input} placeholder="Say something" />
-        <span className={CSS.label}>Custom color</span>
-      </label>
+      <ExampleBlock title='Custom color'>
+        <label className={CSS.greenField}>
+          <input className={CSS.input} placeholder='Say something' />
+          <span className={CSS.label}>Custom color</span>
+        </label>
+      </ExampleBlock>
 
-      <label className={CSS.thinField}>
-        <input className={CSS.input} placeholder="Say something" />
-        <span className={CSS.label}>Thin 1px border</span>
-      </label>
+      <ExampleBlock title='Thin 1px border'>
+        <label className={CSS.thinField}>
+          <input className={CSS.input} placeholder='Say something' />
+          <span className={CSS.label}>Thin 1px border</span>
+        </label>
+      </ExampleBlock>
 
-      <label className={CSS.underlineField}>
-        <input
-          type="email"
-          className={CSS.input}
-          placeholder="Enter an email address"
-        />
-        <span className={CSS.label}>Underlined style</span>
-      </label>
+      <ExampleBlock title='Underlined style'>
+        <label className={CSS.underlineField}>
+          <input
+            type='email'
+            className={CSS.input}
+            placeholder='Enter an email address'
+          />
+          <span className={CSS.label}>Underlined style</span>
+        </label>
+      </ExampleBlock>
 
-      <label className={CSS.smallFontField}>
-        <input className={CSS.input} placeholder="Enter text" />
-        <span className={CSS.label}>Small label font</span>
-      </label>
+      <ExampleBlock title='Small label font'>
+        <label className={CSS.smallFontField}>
+          <input className={CSS.input} placeholder='Enter text' />
+          <span className={CSS.label}>Small label font</span>
+        </label>
+      </ExampleBlock>
 
-      <label className={CSS.field}>
-        <textarea className={CSS.input} placeholder="Say something" />
-        <span className={CSS.label}>Using textareas</span>
-      </label>
+      <ExampleBlock title='Using textareas'>
+        <label className={CSS.field}>
+          <textarea className={CSS.input} placeholder='Say something' />
+          <span className={CSS.label}>Using textareas</span>
+        </label>
+      </ExampleBlock>
     </div>
   )
 }
