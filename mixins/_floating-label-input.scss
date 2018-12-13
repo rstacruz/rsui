@@ -41,7 +41,7 @@
   $timing-function: ease-in-out,
 
   // Padding for the top and bottom sides of a textarea.
-  // Only applies to text areas
+  // Only applies to text areas.
   $textarea-padding: 16px,
 
   // Size of the label in small mode.
@@ -51,7 +51,11 @@
   // This won't be a solid background behind the input box,
   // but just a small "patch" that's $border-size high.
   $body-background: white,
-  $allowance: 2px
+
+  // Amount of extra height on the label "background cover".
+  // Used to fix a bug in Safari where some of the border is
+  // visible behind the label.
+  $label-allowance: 2px
 ) {
   & {
     display: inline-block;
@@ -181,7 +185,7 @@
 
   // Small label ("up there")
   > #{$label} {
-    line-height: $border-size + $allowance * 2;
+    line-height: $border-size + $label-allowance * 2;
     height: auto;
     padding: 0 ($horizontal-padding / 2);
     font-size: $font-size-small;
@@ -195,8 +199,8 @@
       // Not strictly needed, but it makes the transition look
       // a little nice.
       border-radius: $border-radius;
-      line-height: $border-size + $allowance * 2;
-      transform: translate3d(0, $label-displacement - $allowance, 0);
+      line-height: $border-size + $label-allowance * 2;
+      transform: translate3d(0, $label-displacement - $label-allowance, 0);
     }
 
     @if ($border-style == 'underline') {
