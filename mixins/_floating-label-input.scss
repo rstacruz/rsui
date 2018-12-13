@@ -3,37 +3,39 @@
   // Selectors
   $input: ".input",
   $label: ".label",
-  
+  $invalid: ":invalid",
+
   // The height of the input. Doesn't apply to textareas.
   $height: 48px,
-  
+
   // The style of the border in its default state.
   // (radius is ignored if $border-style is 'underline'.)
   $border-size: 2px,
   $border-radius: 6px,
   $border-color: rgba(#789, 0.3),
-  
+
   // 'box' | 'underline'
   $border-style: 'box',
-  
+
   // Colors in its alternate states
   $border-color-focused: dodgerblue,
   $border-color-invalid: #e68,
-  
+
   // Label style
   $label-color: #789,
   $label-color-large: $label-color,
+  $label-color-large-invalid: $label-color-large,
   $label-color-small: $label-color,
   $label-color-focused: $border-color-focused,
   $label-color-invalid: $border-color-invalid,
-  
+
   // How much to displace the label (vertically) in "small" mode.
   // This only applies if border-style is 'underline'.
   $label-displacement: 0,
-  
+
   // Padding for the left and right sides of the input box.
   $horizontal-padding: 12px,
-  
+
   // The speed of the transition.
   $speed: 75ms,
   $timing-function: ease-in-out,
@@ -41,26 +43,26 @@
   // Padding for the top and bottom sides of a textarea.
   // Only applies to text areas
   $textarea-padding: 16px,
-  
+
   // Size of the label in small mode.
   $font-size-small: 0.86em,
-  
+
   // Approximate color of the body behind the input.
   // This won't be a solid background behind the input box,
   // but just a small "patch" that's $border-size high.
-  $body-background: white, 
+  $body-background: white,
 ) {
   & {
     display: inline-block;
     position: relative;
   }
-    
+
   &,
   > #{$input},
   > #{$label} {
     box-sizing: border-box;
   }
-  
+
   // Border
   &::before {
     content: '';
@@ -80,6 +82,10 @@
     }
   }
 
+  &#{$invalid}:not(:focus-within)::before {
+    border-color: $border-color-invalid;
+  }
+
   // Focus ring
   &:focus-within::before {
     border-color: $border-color-focused;
@@ -96,7 +102,7 @@
     white-space: nowrap;
     cursor: text;
   }
-   
+
   // Input reset
   > #{$input} {
     margin: 0;
@@ -108,13 +114,13 @@
     z-index: 1;
     transition: opacity $speed $timing-function, box-shadow $speed $timing-function;
     width: 100%;
-    
+
     @if ($border-style == 'box') {
       // Border radius doesn't make sense in underline mode
       border-radius: $border-radius;
     }
   }
-  
+
   > input#{$input} {
     // For single-line inputs, set the `line-height`.
     // This dictates the overall height of the entire input
@@ -122,47 +128,50 @@
     // (textarea), which will be sized using padding.
     line-height: $height;
   }
-  
+
   > textarea#{$input} {
     padding-top: $textarea-padding;
     padding-bottom: $textarea-padding;
     resize: vertical;
   }
-    
+
+  > #{$input}:focus {
+    outline: 0;
+  }
+
+  > #{$input}#{$invalid},
+  &#{$invalid} > #{$input} {
+    // Cancel the default styling of invalid fields;
+    // we'll style them later in :invalid:not(:focus).
+    outline: 0;
+    box-shadow: none;
+  }
+
+  & > #{$input}#{$invalid}:not(:focus),
+  &#{$invalid} > #{$input}:not(:focus) {
+    // Prevent the textbox from turning red while typing.
+    // This can happen in email input boxes, where typing a partial
+    // email address (without @) causes :invalid to be triggered.
+    outline: 0;
+    border: 0;
+    @if ($border-style == 'box') {
+      box-shadow: inset 0 0 0 $border-size $border-color-invalid;
+    }
+    @if ($border-style == 'underline') {
+      box-shadow: inset 0 (-1 * $border-size) 0 $border-color-invalid;
+    }
+  }
+
+  &#{$invalid} > #{$input}:not(:focus) + #{$label},
+  & > #{$input}#{$invalid}:not(:focus) + #{$label} {
+    color: $label-color-invalid;
+  }
+
   > #{$input} {
-    &:focus {
-      outline: 0;
-    }
-
-    &:invalid {
-      // Cancel the default styling of invalid fields;
-      // we'll style them later in :invalid:not(:focus).
-      outline: 0;
-      box-shadow: none;
-    }
-
-    &:invalid:not(:focus) {
-      // Prevent the textbox from turning red while typing.
-      // This can happen in email input boxes, where typing a partial
-      // email address (without @) causes :invalid to be triggered.
-      outline: 0;
-      border: 0;
-      @if ($border-style == 'box') {
-        box-shadow: inset 0 0 0 $border-size $border-color-invalid;
-      }
-      @if ($border-style == 'underline') {
-        box-shadow: inset 0 (-1 * $border-size) 0 $border-color-invalid;
-      }
-    }
-
-    &:invalid:not(:focus) + #{$label} {
-      color: $label-color-invalid;
-    }
-  
     &:focus + #{$label} {
       color: $label-color-focused;
     }
-    
+
     &:placeholder-shown:not(:focus) {
       // Hide input when label is shown
       opacity: 0;
@@ -178,28 +187,36 @@
     color: $label-color-small;
     // We need to have a fixed background
     background: $body-background;
-    
+    // Prevent wrapping
+    white-space: nowrap;
+
     @if ($border-style == 'box') {
       // Not strictly needed, but it makes the transition look
       // a little nice.
       border-radius: $border-radius;
     }
-    
+
     @if ($border-style == 'underline') {
       transform: translate3d(0, $label-displacement, 0);
     }
   }
-    
+
   // Big label ("down there")
-  > #{$input}:placeholder-shown:not(:focus) + #{$label} {
+  & > #{$input}:placeholder-shown:not(:focus) + #{$label} {
     line-height: $height - $border-size * 2;
     margin-top: $border-size;
     font-size: 1em;
-    color: $label-color-large;
     background: transparent;
- }
-  
-  > #{$input}::placeholder {
+    color: $label-color-large;
+  }
+
+  // Big label - always keep the same color, even if it's invalid
+  & > #{$input}#{$invalid}:placeholder-shown:not(:focus) + #{$label},
+  &#{$invalid} > #{$input}:placeholder-shown:not(:focus) + #{$label} {
+    color: $label-color-large-invalid;
+  }
+
+  & > #{$input}::placeholder {
     color: $label-color-large;
   }
 }
