@@ -1,9 +1,11 @@
 $heading-color: #111;
 $mute-color: #789;
+$border-color: rgba(#78e, 0.12);
+$shadow-color: rgba(#78e, 0.12);
 
 .root {
   max-width: 720px;
-  border-top: solid 1px #78e2;
+  border-top: solid 1px $border-color;
   padding-top: 16px;
   margin: 16px auto;
   display: flex;
@@ -28,8 +30,7 @@ $mute-color: #789;
   flex: 0 0 100%;
   padding: 16px;
   border-radius: 2px;
-  // box-shadow: 0 0 2px #7892, 0 2px 4px #7892, 0 8px 16px #7892;
-  box-shadow: 0 0 2px #7892, 0 2px 4px #7892;
+  box-shadow: 0 0 2px $shadow-color, 0 2px 4px $shadow-color;
   background: white;
 }
 
@@ -57,7 +58,7 @@ $mute-color: #789;
   margin: 0;
   padding: 0;
   color: $heading-color;
-  border-top: solid 1px #7893;
+  border-top: solid 1px $border-color;
   padding-top: 8px;
 
   & + p {
