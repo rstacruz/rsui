@@ -1,4 +1,4 @@
-import './styles.css'
+import '../styles.css'
 import React from 'react'
 import CSS from './FloatingLabels.module.scss'
 import ExampleBlock from './ExampleBlock'
