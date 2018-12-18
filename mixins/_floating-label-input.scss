@@ -68,6 +68,11 @@
     box-sizing: border-box;
   }
 
+  // Reset the focus ring
+  > #{$input}:focus {
+    outline: none;
+  }
+
   // Border
   &::before {
     content: '';
