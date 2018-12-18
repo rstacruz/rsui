@@ -1,7 +1,7 @@
 {
-  "name": "floating-labels-with-sass",
+  "name": "rsui",
   "version": "1.0.0",
-  "description": "",
+  "description": "Various UI widgets",
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {

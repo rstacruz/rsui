@@ -9,4 +9,7 @@ services:
       - .:/app
     ports:
       - '12200:12200'
-    command: ["npm", "run", "develop", "--", "--host", "0.0.0.0", "--port", "12200"]
+    environment:
+      PORT: 12200
+      HOST: 0.0.0.0
+    command: ['npm', 'run', 'start']
