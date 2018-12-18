@@ -1,0 +1,84 @@
+// prettier-ignore
+
+@mixin bordered-radio-button (
+  // Selectors
+  $label: 'span',
+  $fill-color: #789,
+
+  // Dimensions
+  $size: 16px,
+
+  // Space between the control and the label
+  $spacing: 12px,
+  $inset: 2px,
+  $background: white,
+  $border-radius: 50%,
+  $border-size: 2px,
+  $inset-size: 2px,
+  $border-color: #abc,
+  $disabled-border-color: mix($background, $border-color, 65%),
+  $disabled-background: mix($background, $border-color, 75%),
+  $disabled-text-color: $border-color,
+  $focused-border-color: dodgerblue,
+) {
+  & {
+    display: block;
+    // Cancel out any possible text-align: center, which doesn't really
+    // make sense for radio buttons.
+    text-align: left;
+  }
+
+  // Hide the input button, we'll replace it.
+  & > input {
+    display: none;
+  }
+
+  & > #{$label} {
+    cursor: pointer;
+  }
+
+  & > #{$label}::before {
+    cursor: pointer;
+    content: '';
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    vertical-align: middle;
+    width: $size;
+    height: $size;
+    background: $background;
+    box-shadow:
+      inset 0 0 0 $border-size $border-color,
+      inset 0 0 0 ($border-size + $inset-size) $background;
+    border-radius: $border-radius;
+    margin-right: $spacing;
+  }
+
+  // Checked
+  & > input:checked + #{$label}::before {
+    background: $fill-color;
+  }
+
+  // Focus?
+  &:focus > #{$label}::before,
+  &:active > #{$label}::before,
+  &:focus-within > #{$label}::before {
+    box-shadow:
+      inset 0 0 0 $border-size $focused-border-color,
+      inset 0 0 0 ($border-size + $inset-size) $background;
+  }
+
+  // Disabled
+  & > input:disabled + #{$label}::before {
+    cursor: not-allowed;
+    background: $disabled-background;
+    box-shadow:
+      inset 0 0 0 $border-size $disabled-border-color,
+      inset 0 0 0 0 $background;
+  }
+
+  & > input:disabled + #{$label} {
+    cursor: not-allowed;
+    color: $disabled-text-color;
+  }
+}

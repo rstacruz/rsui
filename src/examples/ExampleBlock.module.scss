@@ -1,7 +1,8 @@
 $heading-color: #111;
 $mute-color: #789;
-$border-color: rgba(#78e, 0.12);
+$border-color: rgba(#78e, 0.5);
 $shadow-color: rgba(#78e, 0.12);
+$highlight-color: rgba(#78e, 0.12);
 
 .root {
   border-top: solid 1px $border-color;
@@ -23,6 +24,10 @@ $shadow-color: rgba(#78e, 0.12);
   font-size: 0.86em;
   color: $mute-color;
   line-height: 1.6;
+
+  & :global(code) {
+    background: $highlight-color;
+  }
 }
 
 .body {

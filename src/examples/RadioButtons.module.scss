@@ -1,44 +1,17 @@
-// prettier-ignore
-
-@mixin bordered-radio-button (
-  // Selectors
-  $label: 'span',
-  $accent: dodgerblue,
-
-  // Dimensions
-  $size: 16px,
-
-  // Space between the control and the label
-  $spacing: 12px,
-  $inset: 2px,
-  $border-radius: 50%,
-  $border-color: #ddd,
-) {
-  & > input {
-    display: none;
-  }
-
-  & > #{$label}::before {
-    content: '';
-    margin: 0;
-    padding: 0;
-    display: inline-block;
-    vertical-align: middle;
-    width: $size;
-    height: $size;
-    background: white;
-    box-shadow: inset 0 0 0 2px $border-color, inset 0 0 0 4px white;
-    border-radius: $border-radius;
-    margin-right: $spacing;
-  }
-
-  & > input:checked + #{$label}::before {
-    background: $accent;
-  }
-}
+@import '../../mixins/_bordered-radio-button.scss';
 
 .label {
   @include bordered-radio-button();
+  display: block;
+  padding: 4px;
+}
+
+.bigLabel {
+  @include bordered-radio-button(
+    $size: 32px,
+    $border-size: 3px,
+    $inset-size: 6px
+  );
   display: block;
   padding: 8px;
   text-align: left;
