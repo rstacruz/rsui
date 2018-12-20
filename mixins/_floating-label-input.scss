@@ -11,8 +11,9 @@
   // The style of the border in its default state.
   // (radius is ignored if $border-style is 'underline'.)
   $border-size: 2px,
+  $border-size-focused: $border-size, // TODO
   $border-radius: 6px,
-  $border-color: rgba(#789, 0.3),
+  $border-color: #abc,
 
   // 'box' | 'underline'
   $border-style: 'box',
