@@ -4,6 +4,8 @@
   $input: ".input",
   $label: ".label",
   $invalid: ":invalid",
+  $prefix: none,
+  $suffix: none,
 
   // The height of the input. Doesn't apply to textareas.
   $height: 48px,
@@ -59,7 +61,7 @@
   $label-allowance: 2px
 ) {
   & {
-    display: inline-block;
+    display: inline-flex;
     position: relative;
   }
 
@@ -67,6 +69,23 @@
   > #{$input},
   > #{$label} {
     box-sizing: border-box;
+  }
+
+  @if ($prefix != none) {
+    > #{$prefix},
+    > #{$suffix} {
+      color: $border-color;
+      line-height: $height;
+      flex: 0 0 auto;
+    }
+
+    > #{$prefix} {
+      padding-left: $horizontal-padding;
+    }
+
+    > #{$suffix} {
+      padding-right: $horizontal-padding;
+    }
   }
 
   // Border

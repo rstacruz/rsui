@@ -9,6 +9,16 @@
   @include floating-label-input($label: '.label', $input: '.input');
 }
 
+.prefixedField {
+  composes: commonField;
+  @include floating-label-input(
+    $label: '.label',
+    $input: '.input',
+    $prefix: '.prefix',
+    $suffix: '.suffix'
+  );
+}
+
 .greenField {
   composes: commonField;
   @include floating-label-input(
