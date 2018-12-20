@@ -31,7 +31,7 @@ export default function FloatingLabels() {
         title='Growing border size'
         description={
           <>
-            Adjust <code>border-size-focused</code> to change the border size.
+            Adjust <code>border-size-focused</code> to change the border size
             when the field is focused.
           </>
         }
@@ -42,7 +42,15 @@ export default function FloatingLabels() {
         </label>
       </ExampleBlock>
 
-      <ExampleBlock title='With prefixes'>
+      <ExampleBlock
+        title='With prefixes'
+        description={
+          <>
+            Set <code>prefix</code> and <code>suffix</code> to have items before
+            or after the input box.
+          </>
+        }
+      >
         <label className={CSS.prefixedField}>
           <span className={CSS.prefix}>$</span>
           <input className={CSS.input} placeholder='0' />
@@ -65,14 +73,29 @@ export default function FloatingLabels() {
         </label>
       </ExampleBlock>
 
-      <ExampleBlock title='Custom color'>
+      <ExampleBlock
+        title='Custom color'
+        description={
+          <>
+            You can adjust <code>border-color</code>, <code>label-color</code>,
+            <code>border-color-focused</code>, and more.
+          </>
+        }
+      >
         <label className={CSS.greenField}>
           <input className={CSS.input} placeholder='Say something' />
           <span className={CSS.label}>Custom color</span>
         </label>
       </ExampleBlock>
 
-      <ExampleBlock title='Underlined style'>
+      <ExampleBlock
+        title='Underlined style'
+        description={
+          <>
+            Set <code>border-style: &quot;underline&quot;</code>.
+          </>
+        }
+      >
         <label className={CSS.underlineField}>
           <input
             type='email'
@@ -83,14 +106,25 @@ export default function FloatingLabels() {
         </label>
       </ExampleBlock>
 
-      <ExampleBlock title='Small label font'>
+      <ExampleBlock
+        title='Small label font'
+        description={
+          <>
+            Adjust <code>font-size-small</code> to change how much the label
+            should shrink.
+          </>
+        }
+      >
         <label className={CSS.smallFontField}>
           <input className={CSS.input} placeholder='Enter text' />
           <span className={CSS.label}>Small label font</span>
         </label>
       </ExampleBlock>
 
-      <ExampleBlock title='Using textareas'>
+      <ExampleBlock
+        title='Using textareas'
+        description={<>It works with both inputs and textareas alike.</>}
+      >
         <label className={CSS.field}>
           <textarea className={CSS.input} placeholder='Say something' />
           <span className={CSS.label}>Using textareas</span>
