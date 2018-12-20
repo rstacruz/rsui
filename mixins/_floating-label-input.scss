@@ -60,6 +60,20 @@
   // visible behind the label.
   $label-allowance: 2px
 ) {
+  @if ($prefix != none) {
+    @if ($suffix == none) {
+      $suffix: '.suffix';
+      @warn "$prefix was specified but $suffix was not; assuming '.suffix'";
+    }
+  }
+
+  @if ($suffix != none) {
+    @if ($prefix == none) {
+      $prefix: '.prefix';
+      @warn "$suffix was specified but $prefix was not; assuming '.prefix'";
+    }
+  }
+
   & {
     display: inline-flex;
     position: relative;
@@ -143,6 +157,13 @@
     cursor: text;
   }
 
+  @if ($prefix != none) {
+    > #{$prefix},
+    > #{$suffix} {
+      transition: opacity $speed linear;
+    }
+  }
+
   // Input reset
   > #{$input} {
     margin: 0;
@@ -211,15 +232,15 @@
     color: $label-color-invalid;
   }
 
-  > #{$input} {
-    &:focus + #{$label} {
-      color: $label-color-focused;
-    }
+  &:focus-within > #{$label} {
+    color: $label-color-focused;
+  }
 
-    &:placeholder-shown:not(:focus) {
-      // Hide input when label is shown
-      opacity: 0;
-    }
+  > #{$input}:placeholder-shown:not(:focus),
+  > #{$input}:placeholder-shown:not(:focus) ~ #{$suffix} {
+    // Hide input when label is shown.
+    // Hide the suffix, too!
+    opacity: 0;
   }
 
   // Small label ("up there")
@@ -248,18 +269,26 @@
   }
 
   // Big label ("down there")
-  & > #{$input}:placeholder-shown:not(:focus) + #{$label} {
+  & > #{$input}:placeholder-shown:not(:focus) ~ #{$label} {
     line-height: $height - $border-size * 2;
     margin-top: $border-size;
     font-size: 1em;
-    background: transparent;
+    @if ($prefix != none) {
+      // If there's a prefix, cover it with the big label.
+      // This is unfortunately necessary because it can't be hidden
+      // (you can't do `input:focus ~ .prefix`), so this is a
+      // workaround for it.
+      background: $body-background;
+    } @else {
+      background: transparent;
+    }
     color: $label-color-large;
     transform: translate3d(0, 0, 0);
   }
 
   // Big label - always keep the same color, even if it's invalid
-  & > #{$input}#{$invalid}:placeholder-shown:not(:focus) + #{$label},
-  &#{$invalid} > #{$input}:placeholder-shown:not(:focus) + #{$label} {
+  & > #{$input}#{$invalid}:placeholder-shown:not(:focus) ~ #{$label},
+  &#{$invalid} > #{$input}:placeholder-shown:not(:focus) ~ #{$label} {
     color: $label-color-large-invalid;
   }
 
