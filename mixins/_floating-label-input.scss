@@ -60,18 +60,14 @@
   // visible behind the label.
   $label-allowance: 2px
 ) {
-  @if ($prefix != none) {
-    @if ($suffix == none) {
-      $suffix: '.suffix';
-      @warn "$prefix was specified but $suffix was not; assuming '.suffix'";
-    }
+  @if ($prefix != none) and ($suffix == none) {
+    $suffix: '.suffix';
+    @warn "$prefix was specified but $suffix was not; assuming '.suffix'";
   }
 
-  @if ($suffix != none) {
-    @if ($prefix == none) {
-      $prefix: '.prefix';
-      @warn "$suffix was specified but $prefix was not; assuming '.prefix'";
-    }
+  @if ($suffix != none) and ($prefix == none) {
+    $prefix: '.prefix';
+    @warn "$suffix was specified but $prefix was not; assuming '.prefix'";
   }
 
   & {
@@ -83,6 +79,7 @@
   > #{$input},
   > #{$label} {
     box-sizing: border-box;
+    cursor: text;
   }
 
   @if ($prefix != none) {
@@ -91,6 +88,10 @@
       color: $border-color;
       line-height: $height;
       flex: 0 0 auto;
+      pointer-events: none;
+      transition:
+        opacity $speed linear,
+        color $speed linear;
     }
 
     > #{$prefix} {
@@ -99,6 +100,14 @@
 
     > #{$suffix} {
       padding-right: $horizontal-padding;
+    }
+
+    &:focus-within > #{$prefix},
+    &:focus-within > #{$suffix} {
+      color: $border-color-focused;
+      transition:
+        opacity $speed linear,
+        color ($speed / 4) linear;
     }
   }
 
