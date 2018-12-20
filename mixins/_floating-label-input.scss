@@ -69,11 +69,6 @@
     box-sizing: border-box;
   }
 
-  // Reset the focus ring
-  > #{$input}:focus {
-    outline: none;
-  }
-
   // Border
   &::before {
     content: '';
@@ -93,6 +88,16 @@
     }
   }
 
+  &:focus-within::before {
+    @if ($border-style == 'box') {
+      border-width: $border-size-focused;
+    }
+    @if ($border-style == 'underline') {
+      border-bottom-width: $border-size-focused;
+    }
+  }
+
+  // Invalid ring
   &#{$invalid}:not(:focus-within)::before {
     border-color: $border-color-invalid;
   }
@@ -103,11 +108,16 @@
     transition: border-color ($speed / 4) linear;
   }
 
+  // The label text (default is in big mode)
   > #{$label} {
     position: absolute;
     top: 0;
     left: $border-size + $horizontal-padding / 2;
-    transition: color $speed linear, background $speed $timing-function, line-height $speed $timing-function, font-size $speed $timing-function;
+    transition:
+      color $speed linear,
+      background $speed $timing-function,
+      line-height $speed $timing-function,
+      font-size $speed $timing-function;
     background: transparent;
     z-index: 2;
     white-space: nowrap;
@@ -132,6 +142,7 @@
     }
   }
 
+  // Single-line inputs (eg, not `<textarea>`)
   > input#{$input} {
     // For single-line inputs, set the `line-height`.
     // This dictates the overall height of the entire input
@@ -140,16 +151,19 @@
     line-height: $height;
   }
 
+  // Multi-line inputs (eg, not `<input>`)
   > textarea#{$input} {
     padding-top: $textarea-padding;
     padding-bottom: $textarea-padding;
     resize: vertical;
   }
 
+  // Remove the default browser focus ring
   > #{$input}:focus {
     outline: 0;
   }
 
+  // Invalid
   > #{$input}#{$invalid},
   &#{$invalid} > #{$input} {
     // Cancel the default styling of invalid fields;

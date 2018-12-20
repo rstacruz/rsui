@@ -14,6 +14,31 @@ export default function FloatingLabels() {
       </ExampleBlock>
 
       <ExampleBlock
+        title='Thin 1px border'
+        description={<>Adjust `border-size` to make thinner fields.</>}
+      >
+        <label className={CSS.thinField}>
+          <input className={CSS.input} placeholder='Say something' />
+          <span className={CSS.label}>Thin 1px border</span>
+        </label>
+      </ExampleBlock>
+
+      <ExampleBlock
+        title='Growing border size'
+        description={
+          <>
+            Adjust `border-size-focused` to change the border size. when the
+            field is focused.
+          </>
+        }
+      >
+        <label className={CSS.thin2Field}>
+          <input className={CSS.input} placeholder='Say something' />
+          <span className={CSS.label}>Growing border size</span>
+        </label>
+      </ExampleBlock>
+
+      <ExampleBlock
         title='With validation (email)'
         description='Try entering an invalid email here to see the invalid style.'
       >
@@ -31,13 +56,6 @@ export default function FloatingLabels() {
         <label className={CSS.greenField}>
           <input className={CSS.input} placeholder='Say something' />
           <span className={CSS.label}>Custom color</span>
-        </label>
-      </ExampleBlock>
-
-      <ExampleBlock title='Thin 1px border'>
-        <label className={CSS.thinField}>
-          <input className={CSS.input} placeholder='Say something' />
-          <span className={CSS.label}>Thin 1px border</span>
         </label>
       </ExampleBlock>
 

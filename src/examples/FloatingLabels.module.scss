@@ -20,7 +20,16 @@
 
 .thinField {
   composes: commonField;
-  @include floating-label-input($border-size: 1px, $border-radius: 2px);
+  @include floating-label-input($border-size: 1px, $border-radius: 4px);
+}
+
+.thin2Field {
+  composes: commonField;
+  @include floating-label-input(
+    $border-size: 1px,
+    $border-size-focused: 2px,
+    $border-radius: 4px
+  );
 }
 
 .underlineField {
