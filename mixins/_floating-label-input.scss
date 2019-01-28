@@ -1,307 +1,298 @@
-// prettier-ignore
-@mixin floating-label-input (
-  // Selectors
-  $input: ".input",
-  $label: ".label",
-  $invalid: ":invalid",
-  $prefix: none,
-  $suffix: none,
+// Selectors
+$input: '.input' !default;
+$label: '.label' !default;
+$invalid: ':invalid' !default;
+$prefix: none !default;
+$suffix: none !default;
 
-  // The height of the input. Doesn't apply to textareas.
-  $height: 48px,
+// The height of the input. Doesn't apply to textareas.
+$height: 48px !default;
 
-  // The style of the border in its default state.
-  // (radius is ignored if $border-style is 'underline'.)
-  $border-size: 2px,
-  $border-size-focused: $border-size, // TODO
-  $border-radius: 6px,
-  $border-color: #abc,
+// The style of the border in its default state.
+// (radius is ignored if $border-style is 'underline'.)
+$border-size: 2px !default;
+$border-size-focused: $border-size !default;
+$border-radius: 6px !default;
+$border-color: #abc !default;
 
-  // 'box' | 'underline'
-  $border-style: 'box',
+// 'box' | 'underline'
+$border-style: 'box' !default;
 
-  // Colors in its alternate states
-  $border-color-focused: dodgerblue,
-  $border-color-invalid: #e68,
+// Colors in its alternate states
+$border-color-focused: dodgerblue !default;
+$border-color-invalid: #e68 !default;
 
-  // Label style
-  $label-color: #789,
-  $label-color-large: $label-color,
-  $label-color-large-invalid: $label-color-large,
-  $label-color-small: $label-color,
-  $label-color-focused: $border-color-focused,
-  $label-color-invalid: $border-color-invalid,
+// Label style
+$label-color: #789 !default;
+$label-color-large: $label-color !default;
+$label-color-large-invalid: $label-color-large !default;
+$label-color-small: $label-color !default;
+$label-color-focused: $border-color-focused !default;
+$label-color-invalid: $border-color-invalid !default;
 
-  // How much to displace the label (vertically) in "small" mode.
-  // This only applies if border-style is 'underline'.
-  $label-displacement: 0,
+// How much to displace the label (vertically) in "small" mode.
+// This only applies if border-style is 'underline'.
+$label-displacement: 0 !default;
 
-  // Padding for the left and right sides of the input box.
-  $horizontal-padding: 12px,
+// Padding for the left and right sides of the input box.
+$horizontal-padding: 12px !default;
 
-  // The speed of the transition.
-  $speed: 75ms,
-  $timing-function: ease-in-out,
+// The speed of the transition.
+$speed: 75ms !default;
+$timing-function: ease-in-out !default;
 
-  // Padding for the top and bottom sides of a textarea.
-  // Only applies to text areas.
-  $textarea-padding: 16px,
+// Padding for the top and bottom sides of a textarea.
+// Only applies to text areas.
+$textarea-padding: 16px !default;
 
-  // Size of the label in small mode.
-  $font-size-small: 0.86em,
+// Size of the label in small mode.
+$font-size-small: 0.86em !default;
 
-  // Approximate color of the body behind the input.
-  // This won't be a solid background behind the input box,
-  // but just a small "patch" that's $border-size high.
-  $body-background: white,
+// Approximate color of the body behind the input.
+// This won't be a solid background behind the input box !default;
+// but just a small "patch" that's $border-size high.
+$body-background: white !default;
 
-  // Amount of extra height on the label "background cover".
-  // Used to fix a bug in Safari where some of the border is
-  // visible behind the label.
-  $label-allowance: 2px
-) {
-  @if ($prefix != none) and ($suffix == none) {
-    $suffix: '.suffix';
-    @warn "$prefix was specified but $suffix was not; assuming '.suffix'";
-  }
+// Amount of extra height on the label "background cover".
+// Used to fix a bug in Safari where some of the border is
+// visible behind the label.
+$label-allowance: 2px !default;
 
-  @if ($suffix != none) and ($prefix == none) {
-    $prefix: '.prefix';
-    @warn "$suffix was specified but $prefix was not; assuming '.prefix'";
-  }
+@if ($prefix != none) and ($suffix == none) {
+  $suffix: '.suffix';
+  @warn "$prefix was specified but $suffix was not; assuming '.suffix'";
+}
 
-  & {
-    display: inline-flex;
-    position: relative;
-  }
+@if ($suffix != none) and ($prefix == none) {
+  $prefix: '.prefix';
+  @warn "$suffix was specified but $prefix was not; assuming '.prefix'";
+}
 
-  &,
-  > #{$input},
-  > #{$label} {
-    box-sizing: border-box;
-    cursor: text;
-  }
+& {
+  display: inline-flex;
+  position: relative;
+}
 
-  @if ($prefix != none) {
-    > #{$prefix},
-    > #{$suffix} {
-      color: $border-color;
-      line-height: $height;
-      flex: 0 0 auto;
-      pointer-events: none;
-      transition:
-        opacity $speed linear,
-        color $speed linear;
-    }
+&,
+> #{$input},
+> #{$label} {
+  box-sizing: border-box;
+  cursor: text;
+}
 
-    > #{$prefix} {
-      padding-left: $horizontal-padding;
-    }
-
-    > #{$suffix} {
-      padding-right: $horizontal-padding;
-    }
-
-    &:focus-within > #{$prefix},
-    &:focus-within > #{$suffix} {
-      color: $border-color-focused;
-      transition:
-        opacity $speed linear,
-        color ($speed / 4) linear;
-    }
-  }
-
-  // Border
-  &::before {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    transition: border-color $speed linear;
-    @if ($border-style == 'box') {
-      border: solid $border-size $border-color;
-      border-radius: $border-radius;
-    }
-    @if ($border-style == 'underline') {
-      border-bottom: solid $border-size $border-color;
-    }
-  }
-
-  &:focus-within::before {
-    @if ($border-style == 'box') {
-      border-width: $border-size-focused;
-    }
-    @if ($border-style == 'underline') {
-      border-bottom-width: $border-size-focused;
-    }
-  }
-
-  // Invalid ring
-  &#{$invalid}:not(:focus-within)::before {
-    border-color: $border-color-invalid;
-  }
-
-  // Focus ring
-  &:focus-within::before {
-    border-color: $border-color-focused;
-    transition: border-color ($speed / 4) linear;
-  }
-
-  // The label text (default is in big mode)
-  > #{$label} {
-    position: absolute;
-    top: 0;
-    left: $border-size + $horizontal-padding / 2;
-    transition:
-      color $speed linear,
-      background $speed $timing-function,
-      line-height $speed $timing-function,
-      font-size $speed $timing-function;
-    background: transparent;
-    z-index: 2;
-    white-space: nowrap;
-    cursor: text;
-  }
-
-  @if ($prefix != none) {
-    > #{$prefix},
-    > #{$suffix} {
-      transition: opacity $speed linear;
-    }
-  }
-
-  // Input reset
-  > #{$input} {
-    margin: 0;
-    padding: 0 $horizontal-padding;
-    border: 0;
-    background: transparent;
-    min-height: $height;
-    position: relative;
-    z-index: 1;
-    transition: opacity $speed $timing-function, box-shadow $speed $timing-function;
-    width: 100%;
-
-    @if ($border-style == 'box') {
-      // Border radius doesn't make sense in underline mode
-      border-radius: $border-radius;
-    }
-  }
-
-  // Single-line inputs (eg, not `<textarea>`)
-  > input#{$input} {
-    // For single-line inputs, set the `line-height`.
-    // This dictates the overall height of the entire input
-    // field. This won't apply for multi-line inputs
-    // (textarea), which will be sized using padding.
+@if ($prefix != none) {
+  > #{$prefix},
+  > #{$suffix} {
+    color: $border-color;
     line-height: $height;
+    flex: 0 0 auto;
+    pointer-events: none;
+    transition: opacity $speed linear, color $speed linear;
   }
 
-  // Multi-line inputs (eg, not `<input>`)
-  > textarea#{$input} {
-    padding-top: $textarea-padding;
-    padding-bottom: $textarea-padding;
-    resize: vertical;
+  > #{$prefix} {
+    padding-left: $horizontal-padding;
   }
 
-  // Remove the default browser focus ring
-  > #{$input}:focus {
-    outline: 0;
+  > #{$suffix} {
+    padding-right: $horizontal-padding;
   }
 
-  // Invalid
-  > #{$input}#{$invalid},
-  &#{$invalid} > #{$input} {
-    // Cancel the default styling of invalid fields;
-    // we'll style them later in :invalid:not(:focus).
-    outline: 0;
-    box-shadow: none;
+  &:focus-within > #{$prefix},
+  &:focus-within > #{$suffix} {
+    color: $border-color-focused;
+    transition: opacity $speed linear, color ($speed / 4) linear;
   }
+}
 
-  & > #{$input}#{$invalid}:not(:focus),
-  &#{$invalid} > #{$input}:not(:focus) {
-    // Prevent the textbox from turning red while typing.
-    // This can happen in email input boxes, where typing a partial
-    // email address (without @) causes :invalid to be triggered.
-    outline: 0;
-    border: 0;
-    @if ($border-style == 'box') {
-      box-shadow: inset 0 0 0 $border-size $border-color-invalid;
-    }
-    @if ($border-style == 'underline') {
-      box-shadow: inset 0 (-1 * $border-size) 0 $border-color-invalid;
-    }
+// Border
+&::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: border-color $speed linear;
+  @if ($border-style == 'box') {
+    border: solid $border-size $border-color;
+    border-radius: $border-radius;
   }
-
-  &#{$invalid} > #{$input}:not(:focus) + #{$label},
-  & > #{$input}#{$invalid}:not(:focus) + #{$label} {
-    color: $label-color-invalid;
+  @if ($border-style == 'underline') {
+    border-bottom: solid $border-size $border-color;
   }
+}
 
-  &:focus-within > #{$label} {
-    color: $label-color-focused;
+&:focus-within::before {
+  @if ($border-style == 'box') {
+    border-width: $border-size-focused;
   }
-
-  > #{$input}:placeholder-shown:not(:focus),
-  > #{$input}:placeholder-shown:not(:focus) ~ #{$suffix} {
-    // Hide input when label is shown.
-    // Hide the suffix, too!
-    opacity: 0;
+  @if ($border-style == 'underline') {
+    border-bottom-width: $border-size-focused;
   }
+}
 
-  // Small label ("up there")
-  > #{$label} {
+// Invalid ring
+&#{$invalid}:not(:focus-within)::before {
+  border-color: $border-color-invalid;
+}
+
+// Focus ring
+&:focus-within::before {
+  border-color: $border-color-focused;
+  transition: border-color ($speed / 4) linear;
+}
+
+// The label text (default is in big mode)
+> #{$label} {
+  position: absolute;
+  top: 0;
+  left: $border-size + $horizontal-padding / 2;
+  transition: color $speed linear, background $speed $timing-function,
+    line-height $speed $timing-function, font-size $speed $timing-function;
+  background: transparent;
+  z-index: 2;
+  white-space: nowrap;
+  cursor: text;
+}
+
+@if ($prefix != none) {
+  > #{$prefix},
+  > #{$suffix} {
+    transition: opacity $speed linear;
+  }
+}
+
+// Input reset
+> #{$input} {
+  margin: 0;
+  padding: 0 $horizontal-padding;
+  border: 0;
+  background: transparent;
+  min-height: $height;
+  position: relative;
+  z-index: 1;
+  transition: opacity $speed $timing-function,
+    box-shadow $speed $timing-function;
+  width: 100%;
+
+  @if ($border-style == 'box') {
+    // Border radius doesn't make sense in underline mode
+    border-radius: $border-radius;
+  }
+}
+
+// Single-line inputs (eg, not `<textarea>`)
+> input#{$input} {
+  // For single-line inputs, set the `line-height`.
+  // This dictates the overall height of the entire input
+  // field. This won't apply for multi-line inputs
+  // (textarea), which will be sized using padding.
+  line-height: $height;
+}
+
+// Multi-line inputs (eg, not `<input>`)
+> textarea#{$input} {
+  padding-top: $textarea-padding;
+  padding-bottom: $textarea-padding;
+  resize: vertical;
+}
+
+// Remove the default browser focus ring
+> #{$input}:focus {
+  outline: 0;
+}
+
+// Invalid
+> #{$input}#{$invalid},
+&#{$invalid} > #{$input} {
+  // Cancel the default styling of invalid fields;
+  // we'll style them later in :invalid:not(:focus).
+  outline: 0;
+  box-shadow: none;
+}
+
+& > #{$input}#{$invalid}:not(:focus),
+&#{$invalid} > #{$input}:not(:focus) {
+  // Prevent the textbox from turning red while typing.
+  // This can happen in email input boxes, where typing a partial
+  // email address (without @) causes :invalid to be triggered.
+  outline: 0;
+  border: 0;
+  @if ($border-style == 'box') {
+    box-shadow: inset 0 0 0 $border-size $border-color-invalid;
+  }
+  @if ($border-style == 'underline') {
+    box-shadow: inset 0 (-1 * $border-size) 0 $border-color-invalid;
+  }
+}
+
+&#{$invalid} > #{$input}:not(:focus) + #{$label},
+& > #{$input}#{$invalid}:not(:focus) + #{$label} {
+  color: $label-color-invalid;
+}
+
+&:focus-within > #{$label} {
+  color: $label-color-focused;
+}
+
+> #{$input}:placeholder-shown:not(:focus),
+> #{$input}:placeholder-shown:not(:focus) ~ #{$suffix} {
+  // Hide input when label is shown.
+  // Hide the suffix, too!
+  opacity: 0;
+}
+
+// Small label ("up there")
+> #{$label} {
+  line-height: $border-size + $label-allowance * 2;
+  height: auto;
+  padding: 0 ($horizontal-padding / 2);
+  font-size: $font-size-small;
+  color: $label-color-small;
+  // We need to have a fixed background
+  background: $body-background;
+  // Prevent wrapping
+  white-space: nowrap;
+
+  @if ($border-style == 'box') {
+    // Not strictly needed, but it makes the transition look
+    // a little nice.
+    border-radius: $border-radius;
     line-height: $border-size + $label-allowance * 2;
-    height: auto;
-    padding: 0 ($horizontal-padding / 2);
-    font-size: $font-size-small;
-    color: $label-color-small;
-    // We need to have a fixed background
+    transform: translate3d(0, $label-displacement - $label-allowance, 0);
+  }
+
+  @if ($border-style == 'underline') {
+    transform: translate3d(0, $label-displacement, 0);
+  }
+}
+
+// Big label ("down there")
+& > #{$input}:placeholder-shown:not(:focus) ~ #{$label} {
+  line-height: $height - $border-size * 2;
+  margin-top: $border-size;
+  font-size: 1em;
+  @if ($prefix != none) {
+    // If there's a prefix, cover it with the big label.
+    // This is unfortunately necessary because it can't be hidden
+    // (you can't do `input:focus ~ .prefix`), so this is a
+    // workaround for it.
     background: $body-background;
-    // Prevent wrapping
-    white-space: nowrap;
-
-    @if ($border-style == 'box') {
-      // Not strictly needed, but it makes the transition look
-      // a little nice.
-      border-radius: $border-radius;
-      line-height: $border-size + $label-allowance * 2;
-      transform: translate3d(0, $label-displacement - $label-allowance, 0);
-    }
-
-    @if ($border-style == 'underline') {
-      transform: translate3d(0, $label-displacement, 0);
-    }
+  } @else {
+    background: transparent;
   }
+  color: $label-color-large;
+  transform: translate3d(0, 0, 0);
+}
 
-  // Big label ("down there")
-  & > #{$input}:placeholder-shown:not(:focus) ~ #{$label} {
-    line-height: $height - $border-size * 2;
-    margin-top: $border-size;
-    font-size: 1em;
-    @if ($prefix != none) {
-      // If there's a prefix, cover it with the big label.
-      // This is unfortunately necessary because it can't be hidden
-      // (you can't do `input:focus ~ .prefix`), so this is a
-      // workaround for it.
-      background: $body-background;
-    } @else {
-      background: transparent;
-    }
-    color: $label-color-large;
-    transform: translate3d(0, 0, 0);
-  }
+// Big label - always keep the same color, even if it's invalid
+& > #{$input}#{$invalid}:placeholder-shown:not(:focus) ~ #{$label},
+&#{$invalid} > #{$input}:placeholder-shown:not(:focus) ~ #{$label} {
+  color: $label-color-large-invalid;
+}
 
-  // Big label - always keep the same color, even if it's invalid
-  & > #{$input}#{$invalid}:placeholder-shown:not(:focus) ~ #{$label},
-  &#{$invalid} > #{$input}:placeholder-shown:not(:focus) ~ #{$label} {
-    color: $label-color-large-invalid;
-  }
-
-  & > #{$input}::placeholder {
-    color: $label-color-large;
-  }
+& > #{$input}::placeholder {
+  color: $label-color-large;
 }

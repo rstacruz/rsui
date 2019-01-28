@@ -7,9 +7,13 @@ services:
       dockerfile: Dockerfile
     volumes:
       - .:/app
+      - node_modules:/app/node_modules
     ports:
       - '12200:12200'
     environment:
       PORT: 12200
       HOST: 0.0.0.0
     command: ['npm', 'run', 'start']
+
+volumes:
+  node_modules:

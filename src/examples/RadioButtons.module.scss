@@ -1,17 +1,14 @@
-@import '../../mixins/_bordered-radio-button.scss';
-
 .label {
-  @include bordered-radio-button();
+  @import '../../mixins/_bordered-radio-button.scss';
   display: block;
   padding: 4px;
 }
 
 .bigLabel {
-  @include bordered-radio-button(
-    $size: 32px,
-    $border-size: 3px,
-    $inset-size: 6px
-  );
+  $size: 32px;
+  $border-size: 3px;
+  $inset-size: 6px;
+  @import '../../mixins/_bordered-radio-button.scss';
   display: block;
   padding: 8px;
   text-align: left;
