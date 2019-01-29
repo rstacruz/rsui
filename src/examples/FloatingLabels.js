@@ -89,39 +89,6 @@ export default function FloatingLabels() {
       </ExampleBlock>
 
       <ExampleBlock
-        title='Underlined style'
-        description={
-          <>
-            Set <code>border-style: &quot;underline&quot;</code>.
-          </>
-        }
-      >
-        <label className={CSS.underlineField}>
-          <input
-            type='email'
-            className={CSS.input}
-            placeholder='Enter an email address'
-          />
-          <span className={CSS.label}>Underlined style</span>
-        </label>
-      </ExampleBlock>
-
-      <ExampleBlock
-        title='Small label font'
-        description={
-          <>
-            Adjust <code>font-size-small</code> to change how much the label
-            should shrink.
-          </>
-        }
-      >
-        <label className={CSS.smallFontField}>
-          <input className={CSS.input} placeholder='Enter text' />
-          <span className={CSS.label}>Small label font</span>
-        </label>
-      </ExampleBlock>
-
-      <ExampleBlock
         title='Using textareas'
         description={<>It works with both inputs and textareas alike.</>}
       >
