@@ -64,11 +64,15 @@ $cover-allowance: 2px !default;
 // How many pixels to nudge the label upward in small mode.
 $small-label-vertical-offset: $label-displacement;
 
+$horizontal-border-size: 0;
+
 @if ($border-style == 'box') {
   $small-label-vertical-offset: -1 *
     $small-label-height /
     2 +
     $label-displacement;
+
+  $horizontal-border-size: $border-size;
 }
 
 @if ($prefix != none) and ($suffix == none) {
@@ -162,7 +166,6 @@ $small-label-vertical-offset: $label-displacement;
   position: absolute;
   top: 0;
   height: $height;
-  // left: $border-size + $horizontal-padding / 2;
   max-width: 100%;
   left: 0;
   // prettier-ignore
@@ -274,7 +277,7 @@ $small-label-vertical-offset: $label-displacement;
 > #{$label} {
   box-sizing: border-box;
   line-height: $border-size;
-  padding: 0 $horizontal-padding + $border-size * 2;
+  padding: 0 ($horizontal-padding + $horizontal-border-size * 2);
   font-size: $font-size-small;
   color: $label-color-small;
   z-index: 5;

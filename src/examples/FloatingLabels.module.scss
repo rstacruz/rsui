@@ -44,20 +44,16 @@
 .underlineField {
   composes: commonField;
   $border-size: 2px;
-  $horizontal-padding: 0;
-  $border-style: 'underline';
   $label-displacement: -12px;
   $height: 40px;
-  @import '../../_floating-label-input.scss';
+  @import '../../_underlined-label-input.scss';
 }
 
 .smallFontField {
   composes: commonField;
   $border-size: 2px;
-  $horizontal-padding: 0;
-  $border-style: 'underline';
   $label-displacement: -12px;
   $height: 40px;
   $font-size-small: 0.7em;
-  @import '../../_floating-label-input.scss';
+  @import '../../_underlined-label-input.scss';
 }
