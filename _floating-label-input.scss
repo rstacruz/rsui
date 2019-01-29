@@ -8,6 +8,9 @@ $suffix: none !default;
 // The height of the input. Doesn't apply to textareas.
 $height: 48px !default;
 
+// The height of
+$small-label-height: $height / 2 !default;
+
 // The style of the border in its default state.
 // (radius is ignored if $border-style is 'underline'.)
 $border-size: 2px !default;
@@ -30,8 +33,10 @@ $label-color-small: $label-color !default;
 $label-color-focused: $border-color-focused !default;
 $label-color-invalid: $border-color-invalid !default;
 
+// Set this to false to disable the red invalid outline
+$style-invalid: true !default;
+
 // How much to displace the label (vertically) in "small" mode.
-// This only applies if border-style is 'underline'.
 $label-displacement: 0 !default;
 
 // Padding for the left and right sides of the input box.
@@ -54,9 +59,21 @@ $font-size-small: 0.86em !default;
 $body-background: white !default;
 
 // Amount of extra height on the label "background cover".
-// Used to fix a bug in Safari where some of the border is
-// visible behind the label.
-$label-allowance: 2px !default;
+$cover-allowance: 2px !default;
+
+// How many pixels to nudge the label upward in small mode.
+$small-label-vertical-offset: $label-displacement;
+
+$horizontal-border-size: 0;
+
+@if ($border-style == 'box') {
+  $small-label-vertical-offset: -1 *
+    $small-label-height /
+    2 +
+    $label-displacement;
+
+  $horizontal-border-size: $border-size;
+}
 
 @if ($prefix != none) and ($suffix == none) {
   $suffix: '.suffix';
@@ -148,13 +165,22 @@ $label-allowance: 2px !default;
 > #{$label} {
   position: absolute;
   top: 0;
-  left: $border-size + $horizontal-padding / 2;
-  transition: color $speed linear, background $speed $timing-function,
-    line-height $speed $timing-function, font-size $speed $timing-function;
+  height: $height;
+  max-width: 100%;
+  left: 0;
+  // prettier-ignore
+  transition:
+    color $speed linear,
+    background $speed $timing-function,
+    line-height $speed $timing-function,
+    transform $speed $timing-function,
+    font-size $speed $timing-function;
   background: transparent;
   z-index: 2;
-  white-space: nowrap;
   cursor: text;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @if ($prefix != none) {
@@ -213,18 +239,21 @@ $label-allowance: 2px !default;
   box-shadow: none;
 }
 
-& > #{$input}#{$invalid}:not(:focus),
-&#{$invalid} > #{$input}:not(:focus) {
-  // Prevent the textbox from turning red while typing.
-  // This can happen in email input boxes, where typing a partial
-  // email address (without @) causes :invalid to be triggered.
-  outline: 0;
-  border: 0;
-  @if ($border-style == 'box') {
-    box-shadow: inset 0 0 0 $border-size $border-color-invalid;
-  }
-  @if ($border-style == 'underline') {
-    box-shadow: inset 0 (-1 * $border-size) 0 $border-color-invalid;
+@if ($style-invalid != true) {
+  & > #{$input}#{$invalid}:not(:focus),
+  &#{$invalid} > #{$input}:not(:focus) {
+    // Prevent the textbox from turning red while typing.
+    // This can happen in email input boxes, where typing a partial
+    // email address (without @) causes :invalid to be triggered.
+    outline: 0;
+    border: 0;
+
+    @if ($border-style == 'box') {
+      box-shadow: inset 0 0 0 $border-size $border-color-invalid;
+    }
+    @if ($border-style == 'underline') {
+      box-shadow: inset 0 (-1 * $border-size) 0 $border-color-invalid;
+    }
   }
 }
 
@@ -246,27 +275,23 @@ $label-allowance: 2px !default;
 
 // Small label ("up there")
 > #{$label} {
-  line-height: $border-size + $label-allowance * 2;
-  height: auto;
-  padding: 0 ($horizontal-padding / 2);
+  box-sizing: border-box;
+  line-height: $border-size;
+  padding: 0 ($horizontal-padding + $horizontal-border-size * 2);
   font-size: $font-size-small;
   color: $label-color-small;
-  // We need to have a fixed background
-  background: $body-background;
+  z-index: 5;
+  line-height: $small-label-height;
+  transform: translate3d(0, $small-label-vertical-offset, 0);
+
+  // This will be set to the border size in "big" mode
+  margin-top: 0;
+
   // Prevent wrapping
   white-space: nowrap;
 
-  @if ($border-style == 'box') {
-    // Not strictly needed, but it makes the transition look
-    // a little nice.
-    border-radius: $border-radius;
-    line-height: $border-size + $label-allowance * 2;
-    transform: translate3d(0, $label-displacement - $label-allowance, 0);
-  }
-
-  @if ($border-style == 'underline') {
-    transform: translate3d(0, $label-displacement, 0);
-  }
+  // Usually not needed
+  text-align: left;
 }
 
 // Big label ("down there")
@@ -285,6 +310,33 @@ $label-allowance: 2px !default;
   }
   color: $label-color-large;
   transform: translate3d(0, 0, 0);
+}
+
+// Background cover (default to small mode)
+// This is the little white strip behind teh label text
+> #{$label}::before {
+  content: '';
+  position: absolute;
+  display: block;
+  left: $border-size-focused + $horizontal-padding / 2;
+  right: $border-size-focused + $horizontal-padding / 2;
+  top: 0;
+  height: $border-size-focused + $cover-allowance * 2;
+  background: $body-background;
+  z-index: -1;
+  opacity: 1;
+  transform: translate3d(
+    0,
+    -1 * $small-label-vertical-offset - $cover-allowance,
+    0
+  );
+  transition: transform $speed $timing-function;
+}
+
+// Cover, in big mode
+& > #{$input}:placeholder-shown:not(:focus) ~ #{$label}:before {
+  transform: translate3d(0, 0, 0);
+  opacity: 0;
 }
 
 // Big label - always keep the same color, even if it's invalid

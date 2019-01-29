@@ -130,6 +130,19 @@ export default function FloatingLabels() {
           <span className={CSS.label}>Using textareas</span>
         </label>
       </ExampleBlock>
+
+      <ExampleBlock
+        title='Long labels'
+        description={<>Labels will be truncated with ellipses if necessary.</>}
+      >
+        <label className={CSS.field}>
+          <input className={CSS.input} placeholder='Enter text' />
+          <span className={CSS.label}>
+            This is an extremely long label that should be truncated with
+            ellipses as it runs on and on seemingly without end
+          </span>
+        </label>
+      </ExampleBlock>
     </div>
   )
 }
