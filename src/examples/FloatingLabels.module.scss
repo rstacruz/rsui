@@ -40,20 +40,3 @@
   $border-radius: 4px;
   @import '../../_floating-label-input.scss';
 }
-
-.underlineField {
-  composes: commonField;
-  $border-size: 2px;
-  $label-displacement: -12px;
-  $height: 40px;
-  @import '../../_underlined-label-input.scss';
-}
-
-.smallFontField {
-  composes: commonField;
-  $border-size: 2px;
-  $label-displacement: -12px;
-  $height: 40px;
-  $font-size-small: 0.7em;
-  @import '../../_underlined-label-input.scss';
-}

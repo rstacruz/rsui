@@ -5,8 +5,6 @@ $shadow-color: rgba(#78e, 0.12);
 $highlight-color: rgba(#78e, 0.12);
 
 .root {
-  border-top: solid 1px $border-color;
-  padding-top: 16px;
   margin: 16px auto;
   display: flex;
   flex-wrap: wrap;
@@ -38,6 +36,18 @@ $highlight-color: rgba(#78e, 0.12);
   background: white;
 }
 
+.title {
+  font-size: 1.2em;
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+  color: $heading-color;
+
+  & + p {
+    margin-top: 0;
+  }
+}
+
 @media (min-width: 768.1px) {
   .root {
     flex-wrap: nowrap;
@@ -54,18 +64,9 @@ $highlight-color: rgba(#78e, 0.12);
     flex: 0 1 60%;
     order: 1;
   }
-}
 
-.title {
-  font-size: 1.2em;
-  font-weight: normal;
-  margin: 0;
-  padding: 0;
-  color: $heading-color;
-  border-top: solid 1px $border-color;
-  padding-top: 8px;
-
-  & + p {
-    margin-top: 0;
+  .title {
+    padding-top: 8px;
+    border-top: solid 1px $border-color;
   }
 }

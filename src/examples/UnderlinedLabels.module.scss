@@ -1,0 +1,15 @@
+.commonField {
+  width: 100%;
+}
+
+.underlineField {
+  composes: commonField;
+  @import '../../_underlined-label-input.scss';
+}
+
+.smallFontField {
+  composes: commonField;
+  $height: 40px;
+  $font-size-small: 0.7em;
+  @import '../../_underlined-label-input.scss';
+}

@@ -1,3 +1,6 @@
 $border-style: 'underline' !default;
 $horizontal-padding: 0 !default;
+$height: 40px !default;
+$label-displacement: -1 * $height / 3 !default;
+
 @import './_floating-label-input.scss';
