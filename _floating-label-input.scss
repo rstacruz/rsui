@@ -299,15 +299,7 @@ $horizontal-border-size: 0;
   line-height: $height - $border-size * 2;
   margin-top: $border-size;
   font-size: 1em;
-  @if ($prefix != none) {
-    // If there's a prefix, cover it with the big label.
-    // This is unfortunately necessary because it can't be hidden
-    // (you can't do `input:focus ~ .prefix`), so this is a
-    // workaround for it.
-    background: $body-background;
-  } @else {
-    background: transparent;
-  }
+  background: transparent;
   color: $label-color-large;
   transform: translate3d(0, 0, 0);
 }
@@ -337,6 +329,11 @@ $horizontal-border-size: 0;
 & > #{$input}:placeholder-shown:not(:focus) ~ #{$label}:before {
   transform: translate3d(0, 0, 0);
   opacity: 0;
+
+  @if ($prefix != none) {
+    opacity: 1;
+    height: $height - $border-size * 2;
+  }
 }
 
 // Big label - always keep the same color, even if it's invalid
