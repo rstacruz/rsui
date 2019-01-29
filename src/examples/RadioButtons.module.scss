@@ -7,7 +7,6 @@
 .bigLabel {
   $size: 32px;
   $border-size: 3px;
-  $inset-size: 6px;
   @import '../../_bordered-radio-button.scss';
   display: block;
   padding: 8px;

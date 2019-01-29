@@ -1,33 +1,57 @@
 // Selectors
 $label: 'span' !default;
-$fill-color: #789 !default;
 
 // Dimensions
 $size: 16px !default;
 
 // Space between the control and the label
 $spacing: 12px !default;
-$inset: 2px !default;
-$background: white !default;
 $border-radius: 50% !default;
+
+// Size of the border
 $border-size: 2px !default;
-$inset-size: 2px !default;
+
+// Size of the white area inside it
+$inset-size: $size / 6 !default;
+
+// The color of the inset, and the color of an unselected radio button
+$background: white !default;
+
 $border-color: #abc !default;
+
+// Color of the peg in the middle
+$fill-color: #789 !default;
+$focused-fill-color: adjust-color($fill-color, $lightness: -25%) !default;
+
 $disabled-border-color: mix($background, $border-color, 65%) !default;
 $disabled-background: mix($background, $border-color, 75%) !default;
 $disabled-text-color: $border-color !default;
 $focused-border-color: dodgerblue !default;
 
+// Outer focus ring
+$focus-ring-size: $border-size !default;
+$focus-ring-color: fade-out($focused-border-color, 0.75) !default;
+
+$speed: 150ms;
+$timing-function: ease-in-out;
+
 & {
   display: block;
+  position: relative;
+
   // Cancel out any possible text-align: center, which doesn't really
   // make sense for radio buttons.
   text-align: left;
 }
 
 // Hide the input button, we'll replace it.
+// But don't completely hide it so it can still be tabbed through
 & > input {
-  display: none;
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
 }
 
 & > #{$label} {
@@ -44,30 +68,60 @@ $focused-border-color: dodgerblue !default;
   width: $size;
   height: $size;
   background: $background;
-  box-shadow: inset 0 0 0 $border-size $border-color,
-    inset 0 0 0 ($border-size + $inset-size) $background;
   border-radius: $border-radius;
   margin-right: $spacing;
+  // prettier-ignore
+  box-shadow:
+    inset 0 0 0 $border-size $border-color,
+    inset 0 0 0 ($border-size + $inset-size) $background;
+  // prettier-ignore
+  transition:
+    box-shadow $speed $timing-function,
+    background ($speed * 0.5) $timing-function;
 }
 
 // Checked
 & > input:checked + #{$label}::before {
   background: $fill-color;
+  // prettier-ignore
+  box-shadow:
+    inset 0 0 0 $border-size $border-color,
+    inset 0 0 0 ($border-size + $inset-size) $background;
 }
 
-// Focus?
+// Focused
 &:focus > #{$label}::before,
 &:active > #{$label}::before,
 &:focus-within > #{$label}::before {
-  box-shadow: inset 0 0 0 $border-size $focused-border-color,
-    inset 0 0 0 ($border-size + $inset-size) $background;
+  // prettier-ignore
+  box-shadow:
+    inset 0 0 0 $border-size $focused-border-color,
+    inset 0 0 0 ($border-size + $size / 2) $background;
+}
+
+// Focused + checked
+&:focus > input:checked + #{$label}::before,
+&:active > input:checked + #{$label}::before,
+&:focus-within > input:checked + #{$label}::before {
+  background: $focused-fill-color;
+  // prettier-ignore
+  box-shadow:
+    inset 0 0 0 $border-size $focused-border-color,
+    inset 0 0 0 ($border-size + $inset-size) $background,
+     0 0 0 $focus-ring-size $focus-ring-color;
+}
+
+&:active > #{$label}::before {
+  transition: none;
 }
 
 // Disabled
 & > input:disabled + #{$label}::before {
   cursor: not-allowed;
   background: $disabled-background;
-  box-shadow: inset 0 0 0 $border-size $disabled-border-color,
+  // prettier-ignore
+  box-shadow:
+    inset 0 0 0 $border-size $disabled-border-color,
     inset 0 0 0 0 $background;
 }
 
